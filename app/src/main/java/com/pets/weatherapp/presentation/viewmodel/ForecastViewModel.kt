@@ -18,8 +18,8 @@ class ForecastViewModel: ViewModel() {
         viewModelScope.launch {
             _forecastState.value = ForecastState.Loading
             try {
-                val response = repository.getForecast(cityName)
-                _forecastState.value = ForecastState.Success(response)
+                val result = repository.getCurrentForecast(cityName)
+                _forecastState.value = ForecastState.Success(result)
             } catch (e: Exception) {
                 _forecastState.value = ForecastState.Error(e)
             }

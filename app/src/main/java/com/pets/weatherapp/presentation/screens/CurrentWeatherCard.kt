@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.pets.weatherapp.data.model.Forecast
+import com.pets.weatherapp.data.model.ForecastUiModel
 
 @Composable
 fun CurrentWeatherCard(
-    forecast: Forecast,
+    forecast: ForecastUiModel,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -47,7 +47,7 @@ fun CurrentWeatherCard(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "${forecast.cloud.title}, ${forecast.precipitation.title}",
+                text = "${forecast.cloud}, ${forecast.precipitation}",
                 style = MaterialTheme.typography.bodyMedium
             )
         }

@@ -1,7 +1,9 @@
 package com.pets.weatherapp.data.model
 
+import com.pets.weatherapp.domain.mapper.InstantSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.Instant
 
 @Serializable
 data class ForecastResponse(
@@ -27,10 +29,12 @@ data class ResultSet(
 data class Forecast(
     @SerialName("links")
     val links: LinkCityName,
+    @Serializable(with = InstantSerializer::class)
     @SerialName("date")
-    val date: String,
+    val date: Instant,
     @SerialName("update_date")
-    val updateDate: String,
+    @Serializable(with = InstantSerializer::class)
+    val updateDate: Instant,
     @SerialName("temperature")
     val temperature: Int = 0,
     @SerialName("feel_like_temperature")

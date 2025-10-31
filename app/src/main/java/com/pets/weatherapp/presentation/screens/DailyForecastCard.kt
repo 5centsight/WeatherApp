@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.pets.weatherapp.data.model.Forecast
+import com.pets.weatherapp.data.model.ForecastUiModel
 
 @Composable
 fun DailyForecastCard(
-    forecast: Forecast,
+    forecast: ForecastUiModel,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

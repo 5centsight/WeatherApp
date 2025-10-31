@@ -17,9 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pets.weatherapp.data.model.Forecast
-import com.pets.weatherapp.data.model.ForecastResponse
 import com.pets.weatherapp.data.model.ForecastState
+import com.pets.weatherapp.data.model.ForecastUiModel
 import com.pets.weatherapp.presentation.screens.util.ErrorScreen
 import com.pets.weatherapp.presentation.screens.util.LoadingIndicator
 import com.pets.weatherapp.presentation.theme.WeatherAppTheme
@@ -57,7 +56,7 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
         ) {
             when (val currentState = state) {
                 is ForecastState.Loading -> LoadingIndicator()
-                is ForecastState.Success -> WeatherContent(currentState.response)
+                is ForecastState.Success -> WeatherContent(currentState.result)
                 is ForecastState.Error -> ErrorScreen(currentState.reason)
             }
         }
@@ -66,13 +65,12 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
 
 @Composable
 fun WeatherContent(
-    response: ForecastResponse
+    result: ForecastUiModel
 ) {
-    val forecast = response.forecasts.first()
-    val mockDailyForecasts = mutableListOf<Forecast>()
+    val mockDailyForecasts = mutableListOf<ForecastUiModel>()
 
     (1..10).forEach { _ ->
-        mockDailyForecasts.add(forecast)
+        mockDailyForecasts.add(result)
     }
 
     LazyColumn(
@@ -82,7 +80,7 @@ fun WeatherContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         item {
-            CurrentWeatherCard(forecast = forecast)
+            CurrentWeatherCard(forecast = result)
         }
 
         item {
