@@ -29,7 +29,7 @@ fun CurrentWeatherCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.End
         ) {
             Text(
                 text = "${forecast.temperature}°C",

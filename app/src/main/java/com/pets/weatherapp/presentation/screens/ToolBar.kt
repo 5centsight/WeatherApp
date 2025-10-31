@@ -31,7 +31,7 @@ fun ToolBar(
                 Icon(
                     imageVector = Icons.Default.Place,
                     contentDescription = "Город",
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(24.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(

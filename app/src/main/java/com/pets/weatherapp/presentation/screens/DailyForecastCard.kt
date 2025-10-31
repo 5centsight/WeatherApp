@@ -1,7 +1,7 @@
 package com.pets.weatherapp.presentation.screens
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -30,10 +30,10 @@ fun DailyForecastCard(
             .clickable(onClick = onClick)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
+            Row(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
@@ -43,14 +43,26 @@ fun DailyForecastCard(
                 )
             }
 
-            Column(
-                horizontalAlignment = Alignment.End
+            Row(
+                horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = "${forecast.temperature}°C",
+                    text = "${forecast.temperature}°",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
+                Text(
+                    text = "/",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Light,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = "${forecast.temperature}°",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+
             }
         }
     }

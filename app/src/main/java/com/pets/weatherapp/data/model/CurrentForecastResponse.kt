@@ -39,12 +39,40 @@ data class Forecast(
     val temperature: Int = 0,
     @SerialName("feel_like_temperature")
     val feelLikeTemp: Int = 0,
+    @SerialName("pressure")
+    val pressure: Int = 0,
     @SerialName("humidity")
     val humidity: Int = 0,
     @SerialName("cloud")
     val cloud: ForecastDetail,
+    @SerialName("wind")
+    val wind: CloudDetail,
     @SerialName("precipitation")
-    val precipitation: ForecastDetail
+    val precipitation: ForecastDetail,
+    @SerialName("astronomy")
+    val astronomy: AstronomyDetail,
+    @SerialName("icon")
+    val iconName: String
+)
+
+@Serializable
+data class CloudDetail(
+    @SerialName("speed")
+    val speed: Int = 0,
+    @SerialName("direction")
+    val direction: CloudDirection
+)
+
+@Serializable
+data class CloudDirection(
+    @SerialName("title")
+    val title: String = "",
+    @SerialName("title_letter")
+    val titleLetter: String = "",
+    @SerialName("title_short")
+    val titleShort: String = "",
+    @SerialName("value")
+    val value: String = "",
 )
 
 @Serializable
@@ -53,6 +81,16 @@ data class ForecastDetail(
     val title: String = "",
     @SerialName("value")
     val value: String = ""
+)
+
+@Serializable
+data class AstronomyDetail(
+    @SerialName("sunrize")
+    val sunrise: String = "",
+    @SerialName("sunset")
+    val sunset: String = "",
+    @SerialName("length_day_human")
+    val lengthDay: String = ""
 )
 
 @Serializable
