@@ -1,3 +1,8 @@
-# Weather App
+# Weather App (in Progress)
+Приложение для просмотра погоды. В качестве источника используюся данные [ngs api](https://pogoda.ngs.ru/).
 
-В перспективе приложение для просмотра погоды. 
+# 📱 Скриншоты
+
+<div align="center" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
+  <img src="previews/weatherScreen.png" width="180" alt="Главный экран" style="margin: 15px;">
+</div>
