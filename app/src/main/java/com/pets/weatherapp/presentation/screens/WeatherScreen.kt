@@ -21,7 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.data.model.ForecastState
-import com.pets.weatherapp.data.model.ForecastUiModel
+import com.pets.weatherapp.data.model.CurrentForecastUiModel
+import com.pets.weatherapp.data.model.DailyForecastUiModel
 import com.pets.weatherapp.presentation.screens.util.ErrorScreen
 import com.pets.weatherapp.presentation.screens.util.LoadingIndicator
 import com.pets.weatherapp.presentation.theme.WeatherAppTheme
@@ -42,7 +43,7 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
     val mockSelectedCity = "novosibirsk"
 
     LaunchedEffect(Unit) {
-        viewModel.loadWeather(mockSelectedCity)
+        viewModel.loadWeatherData(mockSelectedCity)
     }
 
     Scaffold(
@@ -59,7 +60,8 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
         ) {
             when (val currentState = state) {
                 is ForecastState.Loading -> LoadingIndicator()
-                is ForecastState.Success -> WeatherContent(currentState.result)
+                is ForecastState.Success -> WeatherContent(currentState.currentWeather,
+                    currentState.dailyForecast)
                 is ForecastState.Error -> ErrorScreen(currentState.reason)
             }
         }
@@ -68,13 +70,13 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
 
 @Composable
 fun WeatherContent(
-    result: ForecastUiModel
+    currentWeather: CurrentForecastUiModel,
+    dailyForecast: List<DailyForecastUiModel>
 ) {
-    val mockDailyForecasts = mutableListOf<ForecastUiModel>()
-
-    (1..10).forEach { _ ->
-        mockDailyForecasts.add(result)
-    }
+//    val mockDailyForecasts = mutableListOf<CurrentForecastUiModel>()
+//    (1..10).forEach { _ ->
+//        mockDailyForecasts.add(`currentWeather, dailyForecast`)
+//    }
 
     LazyColumn(
         modifier = Modifier
@@ -83,7 +85,7 @@ fun WeatherContent(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         item {
-            CurrentWeatherCard(forecast = result)
+            CurrentWeatherCard(forecast = currentWeather)
         }
 
         item {
@@ -94,7 +96,7 @@ fun WeatherContent(
             )
         }
 
-        items(mockDailyForecasts) { forecast ->
+        items(dailyForecast) { forecast ->
             DailyForecastCard(
                 forecast = forecast,
                 onClick = {}

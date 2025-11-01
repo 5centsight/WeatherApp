@@ -9,17 +9,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ForecastViewModel: ViewModel() {
+class ForecastViewModel : ViewModel() {
     private val repository = ForecastRepository()
-    private val _forecastState = MutableStateFlow<ForecastState>(ForecastState.Loading)
+    private val _forecastState: MutableStateFlow<ForecastState> =
+        MutableStateFlow<ForecastState>(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> = _forecastState.asStateFlow()
 
-    fun loadWeather(cityName: String) {
+    fun loadWeatherData(cityName: String) {
         viewModelScope.launch {
             _forecastState.value = ForecastState.Loading
             try {
-                val result = repository.getCurrentForecast(cityName)
-                _forecastState.value = ForecastState.Success(result)
+                val currentWeather = repository.getCurrentForecast(cityName)
+                val dailyForecast = repository.getDailyForecast(cityName)
+                _forecastState.value = ForecastState.Success(
+                    currentWeather = currentWeather,
+                    dailyForecast = dailyForecast
+                )
             } catch (e: Exception) {
                 _forecastState.value = ForecastState.Error(e)
             }

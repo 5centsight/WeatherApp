@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import java.time.Instant
 
 @Serializable
-data class ForecastResponse(
+data class CurrentForecastResponse(
     @SerialName("metadata")
     val metadata: Metadata,
     @SerialName("forecasts")
@@ -14,21 +14,7 @@ data class ForecastResponse(
 )
 
 @Serializable
-data class Metadata(
-    @SerialName("resultset")
-    val resultset: ResultSet
-)
-
-@Serializable
-data class ResultSet(
-    @SerialName("count")
-    val count: Int = 0
-)
-
-@Serializable
 data class Forecast(
-    @SerialName("links")
-    val links: LinkCityName,
     @Serializable(with = InstantSerializer::class)
     @SerialName("date")
     val date: Instant,
@@ -44,58 +30,24 @@ data class Forecast(
     @SerialName("humidity")
     val humidity: Int = 0,
     @SerialName("cloud")
-    val cloud: ForecastDetail,
+    val cloud: CoupledDetails,
     @SerialName("wind")
-    val wind: CloudDetail,
+    val wind: CurrentWind,
     @SerialName("precipitation")
-    val precipitation: ForecastDetail,
+    val precipitation: CoupledDetails,
     @SerialName("astronomy")
     val astronomy: AstronomyDetail,
     @SerialName("icon")
-    val iconName: String
+    val iconName: String,
+    @SerialName("links")
+    val links: LinkCityName,
 )
 
 @Serializable
-data class CloudDetail(
+data class CurrentWind(
     @SerialName("speed")
     val speed: Int = 0,
     @SerialName("direction")
-    val direction: CloudDirection
-)
-
-@Serializable
-data class CloudDirection(
-    @SerialName("title")
-    val title: String = "",
-    @SerialName("title_letter")
-    val titleLetter: String = "",
-    @SerialName("title_short")
-    val titleShort: String = "",
-    @SerialName("value")
-    val value: String = "",
-)
-
-@Serializable
-data class ForecastDetail(
-    @SerialName("title")
-    val title: String = "",
-    @SerialName("value")
-    val value: String = ""
-)
-
-@Serializable
-data class AstronomyDetail(
-    @SerialName("sunrize")
-    val sunrise: String = "",
-    @SerialName("sunset")
-    val sunset: String = "",
-    @SerialName("length_day_human")
-    val lengthDay: String = ""
-)
-
-@Serializable
-data class LinkCityName(
-    @SerialName("city")
-    val city: String = ""
+    val direction: WindDirection
 )
 

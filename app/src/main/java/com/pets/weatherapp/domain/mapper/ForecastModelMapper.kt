@@ -1,7 +1,9 @@
 package com.pets.weatherapp.domain.mapper
 
-import com.pets.weatherapp.data.model.ForecastResponse
-import com.pets.weatherapp.data.model.ForecastUiModel
+import com.pets.weatherapp.data.model.CurrentForecastResponse
+import com.pets.weatherapp.data.model.DailyForecastsResponse
+import com.pets.weatherapp.data.model.CurrentForecastUiModel
+import com.pets.weatherapp.data.model.DailyForecastUiModel
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -14,18 +16,28 @@ class ForecastModelMapper {
         )
     }
 
-    fun toForecastUiModel(data: ForecastResponse): List<ForecastUiModel> = with(data) {
-        val forecastsList = data.forecasts
-        forecastsList.map { it ->
-            ForecastUiModel(
-                city = it.links.city,
+    fun toForecastUiModel(data: CurrentForecastResponse): CurrentForecastUiModel = with(data) {
+        val forecast = data.forecasts.first()
+            CurrentForecastUiModel(
+                city = forecast.links.city,
+                date = FORMATTER.format(forecast.date.atZone(ZoneId.systemDefault())),
+                updateDate = FORMATTER.format(forecast.updateDate.atZone(ZoneId.systemDefault())),
+                temperature = forecast.temperature,
+                feelLikeTemp = forecast.feelLikeTemp,
+                humidity = forecast.humidity,
+                cloud = forecast.cloud.title,
+                precipitation = forecast.precipitation.title
+            )
+    }
+
+    fun toForecastUiModel(data: DailyForecastsResponse): List<DailyForecastUiModel> = with(data) {
+        val hourlyForecastsList = data.forecasts
+        hourlyForecastsList.map { it ->
+            DailyForecastUiModel(
                 date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault())),
-                updateDate = FORMATTER.format(it.updateDate.atZone(ZoneId.systemDefault())),
-                temperature = it.temperature,
-                feelLikeTemp = it.feelLikeTemp,
-                humidity = it.humidity,
-                cloud = it.cloud.title,
-                precipitation = it.precipitation.title
+                minTemperature = it.hours.first().temperature.min,
+                maxTemperature = it.hours.first().temperature.max,
+                avgTemperature = it.hours.first().temperature.avg,
             )
         }
     }

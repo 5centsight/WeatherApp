@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.pets.weatherapp.data.model.ForecastUiModel
+import com.pets.weatherapp.data.model.DailyForecastUiModel
 
 @Composable
 fun DailyForecastCard(
-    forecast: ForecastUiModel,
+    forecast: DailyForecastUiModel,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -47,7 +47,7 @@ fun DailyForecastCard(
                 horizontalArrangement = Arrangement.End
             ) {
                 Text(
-                    text = "${forecast.temperature}°",
+                    text = "${forecast.minTemperature}°",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -58,7 +58,7 @@ fun DailyForecastCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "${forecast.temperature}°",
+                    text = "${forecast.maxTemperature}°",
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold
                 )
