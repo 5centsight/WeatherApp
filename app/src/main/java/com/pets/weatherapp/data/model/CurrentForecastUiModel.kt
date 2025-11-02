@@ -9,5 +9,5 @@ data class CurrentForecastUiModel(
     val humidity: Int = 0,
     val cloud: String = "",
     val precipitation: String = "",
-    val icon: String = ""
+    val iconId: Int = 0
 )

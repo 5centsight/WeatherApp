@@ -8,5 +8,6 @@ data class DailyForecastUiModel(
     val avgTemperature: Int = 0,
     val humidity: Int = 0,
     val cloud: String = "",
-    val precipitation: String = ""
+    val precipitation: String = "",
+    val iconId: Int = 0
 )

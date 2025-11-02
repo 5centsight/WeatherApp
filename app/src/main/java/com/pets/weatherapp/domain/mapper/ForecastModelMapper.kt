@@ -4,6 +4,7 @@ import com.pets.weatherapp.data.model.CurrentForecastResponse
 import com.pets.weatherapp.data.model.DailyForecastsResponse
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
 import com.pets.weatherapp.data.model.DailyForecastUiModel
+import com.pets.weatherapp.presentation.screens.util.getWeatherIconRes
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -27,7 +28,7 @@ class ForecastModelMapper {
                 humidity = forecast.humidity,
                 cloud = forecast.cloud.title,
                 precipitation = forecast.precipitation.title,
-                icon = forecast.iconName
+                iconId = getWeatherIconRes(forecast.iconName)
             )
     }
 
@@ -37,7 +38,8 @@ class ForecastModelMapper {
             DailyForecastUiModel(
                 date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault())),
                 minTemperature = it.hours[0].temperature.min,
-                maxTemperature = it.hours[2].temperature.max
+                maxTemperature = it.hours[2].temperature.max,
+                iconId = getWeatherIconRes(it.hours[2].icon),
             )
         }
     }

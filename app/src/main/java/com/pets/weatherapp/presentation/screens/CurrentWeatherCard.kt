@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
-import com.pets.weatherapp.presentation.screens.util.getWeatherIconRes
 
 @Composable
 fun CurrentWeatherCard(
@@ -38,7 +37,7 @@ fun CurrentWeatherCard(
                 .align(Alignment.CenterHorizontally)
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(getWeatherIconRes(forecast.icon)),
+                imageVector = ImageVector.vectorResource(forecast.iconId),
                 contentDescription = "Weather image",
                 modifier = modifier
                     .size(150.dp)
