@@ -26,7 +26,8 @@ class ForecastModelMapper {
                 feelLikeTemp = forecast.feelLikeTemp,
                 humidity = forecast.humidity,
                 cloud = forecast.cloud.title,
-                precipitation = forecast.precipitation.title
+                precipitation = forecast.precipitation.title,
+                icon = forecast.iconName
             )
     }
 
@@ -35,9 +36,8 @@ class ForecastModelMapper {
         hourlyForecastsList.map { it ->
             DailyForecastUiModel(
                 date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault())),
-                minTemperature = it.hours.first().temperature.min,
-                maxTemperature = it.hours.first().temperature.max,
-                avgTemperature = it.hours.first().temperature.avg,
+                minTemperature = it.hours[0].temperature.min,
+                maxTemperature = it.hours[2].temperature.max
             )
         }
     }

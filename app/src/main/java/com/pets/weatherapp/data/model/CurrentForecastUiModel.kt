@@ -8,5 +8,6 @@ data class CurrentForecastUiModel(
     val feelLikeTemp: Int = 0,
     val humidity: Int = 0,
     val cloud: String = "",
-    val precipitation: String = ""
+    val precipitation: String = "",
+    val icon: String = ""
 )
