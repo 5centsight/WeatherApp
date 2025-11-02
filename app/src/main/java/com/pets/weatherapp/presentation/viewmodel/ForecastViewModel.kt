@@ -12,8 +12,16 @@ import kotlinx.coroutines.launch
 class ForecastViewModel : ViewModel() {
     private val repository = ForecastRepository()
     private val _forecastState: MutableStateFlow<ForecastState> =
-        MutableStateFlow<ForecastState>(ForecastState.Loading)
+        MutableStateFlow(ForecastState.Loading)
     val forecastState: StateFlow<ForecastState> = _forecastState.asStateFlow()
+    private val _selectedCity = MutableStateFlow("novosibirsk")
+    val selectedCity: StateFlow<String> = _selectedCity.asStateFlow()
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing.asStateFlow()
+
+    init {
+        loadWeatherData(_selectedCity.value)
+    }
 
     fun loadWeatherData(cityName: String) {
         viewModelScope.launch {
@@ -27,6 +35,20 @@ class ForecastViewModel : ViewModel() {
                 )
             } catch (e: Exception) {
                 _forecastState.value = ForecastState.Error(e)
+            }
+        }
+    }
+
+    fun refreshWeatherData() {
+        if (_isRefreshing.value) return
+        viewModelScope.launch {
+            _isRefreshing.value = true
+            try {
+                loadWeatherData(_selectedCity.value)
+            } catch (e: Exception) {
+                _forecastState.value = ForecastState.Error(e)
+            } finally {
+                _isRefreshing.value = false
             }
         }
     }
