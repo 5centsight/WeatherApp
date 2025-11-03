@@ -44,12 +44,10 @@ fun WeatherScreenPreview() {
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeatherScreen(viewModel: ForecastViewModel) {
-    val state by viewModel.forecastState.collectAsState()
-    val isRefreshing by viewModel.isRefreshing.collectAsState()
-    val selectedCity by viewModel.selectedCity.collectAsState()
+    val state by viewModel.uiState.collectAsState()
 
     val pullRefreshState = rememberPullRefreshState(
-        refreshing = isRefreshing,
+        refreshing = state.isRefreshing,
         onRefresh = {
             viewModel.refreshWeatherData()
         },
@@ -59,7 +57,7 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
     Scaffold(
         topBar = {
             ToolBar(
-                cityName = selectedCity
+                cityName = state.selectedCity
             )
         }
     ) { paddingValues ->
@@ -69,7 +67,7 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
                 .padding(paddingValues)
                 .pullRefresh(pullRefreshState)
         ) {
-            when (val currentState = state) {
+            when (val currentState = state.forecastState) {
                 is ForecastState.Loading -> LoadingIndicator()
                 is ForecastState.Success -> WeatherContent(
                     currentState.currentWeather,
@@ -78,7 +76,7 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
                 is ForecastState.Error -> ErrorScreen(currentState.reason)
             }
             PullRefreshIndicator(
-                isRefreshing,
+                state.isRefreshing,
                 pullRefreshState,
                 Modifier.align(Alignment.TopCenter),
                 contentColor = MaterialTheme.colorScheme.primary,
