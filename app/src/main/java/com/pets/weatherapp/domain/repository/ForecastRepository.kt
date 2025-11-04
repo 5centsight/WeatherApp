@@ -18,4 +18,8 @@ class ForecastRepository {
         val response = forecastService.getDailyForecast(cityName)
         return mapper.toForecastUiModel(response)
     }
+
+    suspend fun getCities() {
+        val response = forecastService.getCities()
+    }
 }

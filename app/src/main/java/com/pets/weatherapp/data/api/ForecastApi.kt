@@ -1,5 +1,6 @@
 package com.pets.weatherapp.data.api
 
+import com.pets.weatherapp.data.model.CitiesResponse
 import com.pets.weatherapp.data.model.CurrentForecastResponse
 import com.pets.weatherapp.data.model.DailyForecastsResponse
 import retrofit2.http.GET
@@ -11,4 +12,7 @@ interface ForecastApi {
 
     @GET("forecasts/forecast")
     suspend fun getDailyForecast(@Query("city") city: String): DailyForecastsResponse
+
+    @GET("cities")
+    suspend fun getCities(): CitiesResponse
 }
