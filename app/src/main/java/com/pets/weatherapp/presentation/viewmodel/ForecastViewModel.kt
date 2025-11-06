@@ -30,9 +30,12 @@ class ForecastViewModel : ViewModel() {
             try {
                 val currentWeather = repository.getCurrentForecast(cityName)
                 val dailyForecast = repository.getDailyForecast(cityName)
+                val cityTitle = repository.getCityTitle(cityName)
                 _uiState.update {
                     it.copy(
                         forecastState = ForecastState.Success(currentWeather, dailyForecast),
+                        cityTitle = cityTitle,
+                        cityName = cityName,
                         isRefreshing = false
                     )
                 }
@@ -49,6 +52,18 @@ class ForecastViewModel : ViewModel() {
 
     fun refreshWeatherData() {
         if (_uiState.value.isRefreshing) return
-        loadWeatherData(_uiState.value.selectedCity)
+        loadWeatherData(_uiState.value.cityName)
+    }
+
+    fun onCitySelected(city: String) {
+        viewModelScope.launch {
+            val cityName = repository.getCityName(city)
+            loadWeatherData(cityName)
+            _uiState.update {
+                it.copy(
+                    selectedCity = city
+                )
+            }
+        }
     }
 }

@@ -4,5 +4,5 @@
 # 📱 Скриншоты
 
 <div align="center" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center;">
-  <img src="previews/weatherScreen.png" width="320" alt="Главный экран" style="margin: 15px;">
+  <img src="previews/weatherScreen.gif" width="320" alt="Главный экран" style="margin: 15px;">
 </div>

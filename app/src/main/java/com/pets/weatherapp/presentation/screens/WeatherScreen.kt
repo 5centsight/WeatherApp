@@ -22,28 +22,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
 import com.pets.weatherapp.data.model.DailyForecastUiModel
 import com.pets.weatherapp.data.model.ForecastState
 import com.pets.weatherapp.presentation.screens.util.ErrorScreen
 import com.pets.weatherapp.presentation.screens.util.LoadingIndicator
-import com.pets.weatherapp.presentation.theme.WeatherAppTheme
 import com.pets.weatherapp.presentation.viewmodel.ForecastViewModel
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun WeatherScreenPreview() {
-    WeatherAppTheme {
-        val previewViewModel = ForecastViewModel()
-        WeatherScreen(previewViewModel)
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun WeatherScreen(viewModel: ForecastViewModel) {
+fun WeatherScreen(
+    viewModel: ForecastViewModel,
+    onSearchClick: () -> Unit
+) {
     val state by viewModel.uiState.collectAsState()
 
     val pullRefreshState = rememberPullRefreshState(
@@ -57,7 +49,8 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
     Scaffold(
         topBar = {
             ToolBar(
-                cityName = state.selectedCity
+                cityName = state.cityTitle,
+                onSearchClick = onSearchClick
             )
         }
     ) { paddingValues ->
@@ -73,6 +66,7 @@ fun WeatherScreen(viewModel: ForecastViewModel) {
                     currentState.currentWeather,
                     currentState.dailyForecast
                 )
+
                 is ForecastState.Error -> ErrorScreen(currentState.reason)
             }
             PullRefreshIndicator(

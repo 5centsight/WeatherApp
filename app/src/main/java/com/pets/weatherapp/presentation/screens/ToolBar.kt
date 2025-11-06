@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolBar(
-    cityName: String
+    cityName: String,
+    onSearchClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -41,7 +42,7 @@ fun ToolBar(
             }
         },
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = onSearchClick) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "Выбрать город",

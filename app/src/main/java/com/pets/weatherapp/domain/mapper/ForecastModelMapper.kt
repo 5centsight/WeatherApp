@@ -1,5 +1,7 @@
 package com.pets.weatherapp.domain.mapper
 
+import com.pets.weatherapp.data.model.CitiesResponse
+import com.pets.weatherapp.data.model.CityUiModel
 import com.pets.weatherapp.data.model.CurrentForecastResponse
 import com.pets.weatherapp.data.model.DailyForecastsResponse
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
@@ -40,6 +42,17 @@ class ForecastModelMapper {
                 minTemperature = it.hours[0].temperature.min,
                 maxTemperature = it.hours[2].temperature.max,
                 iconId = getWeatherIconRes(it.hours[2].icon),
+            )
+        }
+    }
+
+
+    fun toCityUiModel(data: CitiesResponse): List<CityUiModel> = with(data) {
+        val citiesList = data.cities
+        citiesList.map { it ->
+            CityUiModel(
+                name = it.name,
+                title = it.title
             )
         }
     }
