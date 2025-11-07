@@ -123,6 +123,5 @@ fun WeatherContent(
                 )
             }
         }
-
     }
 }

@@ -27,7 +27,6 @@ fun DailyForecastCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Card(
         elevation = CardDefaults.cardElevation(2.dp),
         modifier = modifier
