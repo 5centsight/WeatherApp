@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LoadingIndicator() {
+fun LoadingScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()

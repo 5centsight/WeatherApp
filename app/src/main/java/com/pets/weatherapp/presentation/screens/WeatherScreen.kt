@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
 import com.pets.weatherapp.data.model.DailyForecastUiModel
 import com.pets.weatherapp.data.model.ForecastState
-import com.pets.weatherapp.presentation.screens.util.ErrorScreen
-import com.pets.weatherapp.presentation.screens.util.LoadingIndicator
+import com.pets.weatherapp.presentation.screens.util.LoadingScreen
 import com.pets.weatherapp.presentation.viewmodel.ForecastViewModel
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -61,13 +61,16 @@ fun WeatherScreen(
                 .pullRefresh(pullRefreshState)
         ) {
             when (val currentState = state.forecastState) {
-                is ForecastState.Loading -> LoadingIndicator()
+                is ForecastState.Loading -> LoadingScreen()
                 is ForecastState.Success -> WeatherContent(
                     currentState.currentWeather,
                     currentState.dailyForecast
                 )
 
-                is ForecastState.Error -> ErrorScreen(currentState.reason)
+                is ForecastState.Error -> {
+                    LoadingScreen()
+//                    ErrorScreen(currentState.reason)
+                }
             }
             PullRefreshIndicator(
                 state.isRefreshing,
@@ -106,8 +109,7 @@ fun WeatherContent(
 
         items(dailyForecast) { forecast ->
             DailyForecastCard(
-                forecast = forecast,
-                onClick = {}
+                forecast = forecast
             )
         }
 

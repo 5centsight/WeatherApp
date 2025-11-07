@@ -42,6 +42,15 @@ class ForecastModelMapper {
                 minTemperature = it.hours[0].temperature.min,
                 maxTemperature = it.hours[2].temperature.max,
                 iconId = getWeatherIconRes(it.hours[2].icon),
+                humidity = it.hours[2].humidity.avg,
+                maxWindSpeed = it.hours[2].wind.speed.max,
+                windDirection = it.hours[2].wind.direction.title,
+                pressure = it.hours[2].pressure.avg,
+                sunrise = it.astronomy.sunrise,
+                sunset = it.astronomy.sunset,
+                cloud = it.hours[2].cloud.title,
+                precipitation = it.hours[2].precipitation.title,
+                lengthDay = it.astronomy.lengthDay
             )
         }
     }
