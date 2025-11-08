@@ -6,10 +6,12 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -38,7 +40,7 @@ fun DailyForecastCard(
         elevation = CardDefaults.cardElevation(2.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .clickable() { expanded = !expanded }
+            .clickable { expanded = !expanded }
             .animateContentSize()
     ) {
         Row(
@@ -48,7 +50,7 @@ fun DailyForecastCard(
             }
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(forecast.iconId),
+                imageVector = ImageVector.vectorResource(forecast.iconIds[0]),
                 contentDescription = "Weather image",
                 modifier = Modifier
                     .size(36.dp)
@@ -85,7 +87,6 @@ fun DailyForecastCard(
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.SemiBold
                     )
-
                 }
             }
         }
@@ -97,42 +98,83 @@ fun DailyForecastCard(
 
 @Composable
 fun DailyForecastCardExpansion(forecast: DailyForecastUiModel) {
-    Column(modifier = Modifier.padding(16.dp, top = 0.dp, bottom = 16.dp)) {
-        Text(
-            text = "Температура ночью: ${forecast.minTemperature}°",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "Температура днём: ${forecast.maxTemperature}°",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "${forecast.cloud.replaceFirstChar { it.uppercase() }}, ${forecast.precipitation}",
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Text(
-            text = "Ветер: ${forecast.windDirection}, ${forecast.maxWindSpeed} м/с",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "Давление: ${forecast.pressure} мм.рт.ст.",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "Влажность: ${forecast.humidity}%",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "Восход: ${forecast.sunrise}",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "Закат: ${forecast.sunset}",
-            style = MaterialTheme.typography.bodyMedium,
-        )
-        Text(
-            text = "Длина светового дня: ${forecast.lengthDay}",
-            style = MaterialTheme.typography.bodyMedium,
-        )
+    LazyRow(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        items(forecast.iconIds.size) { id ->
+            Card {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "${forecast.tempPerHour[id]}°",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.surfaceTint
+                )
+                Icon(
+                    imageVector = ImageVector.vectorResource(forecast.iconIds[id]),
+                    contentDescription = "Weather image",
+                    modifier = Modifier
+                        .size(36.dp)
+                        .align(Alignment.CenterHorizontally),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "${forecast.windPerHour[id]} м/с",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = forecast.hours[id],
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+        }
+    }
+    Spacer(
+        modifier = Modifier.size(10.dp)
+    )
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(horizontalAlignment = Alignment.Start) {
+            Text(
+                text = "Давление: ${forecast.pressure} мм.рт.ст.",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = "Влажность: ${forecast.humidity}%",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = "Восход: ${forecast.sunrise}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
+                text = "Закат: ${forecast.sunset}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
+    }
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp, end = 16.dp, top = 0.dp, bottom = 16.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Column(horizontalAlignment = Alignment.End) {
+            Text(
+                text = "Длина светового дня: ${forecast.lengthDay}",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+        }
     }
 }
