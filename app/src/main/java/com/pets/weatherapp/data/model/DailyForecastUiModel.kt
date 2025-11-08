@@ -5,6 +5,7 @@ data class DailyForecastUiModel(
     val hours: List<String> = emptyList(),
     val tempPerHour: List<Int> = emptyList(),
     val windPerHour: List<Int> = emptyList(),
+    val directPerHour: List<String> = emptyList(),
     val minTemperature: Int = 0,
     val maxTemperature: Int = 0,
     val humidity: Int = 0,

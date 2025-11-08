@@ -50,6 +50,9 @@ class ForecastModelMapper {
                 windPerHour = (0..3).map { id ->
                     it.hours[id].wind.speed.max
                 },
+                directPerHour = (0..3).map { id ->
+                    it.hours[id].wind.direction.titleLetter
+                },
                 humidity = it.hours[2].humidity.avg,
                 pressure = it.hours[2].pressure.avg,
                 sunrise = it.astronomy.sunrise,

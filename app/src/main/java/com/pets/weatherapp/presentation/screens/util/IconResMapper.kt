@@ -48,6 +48,6 @@ fun getWeatherIconRes(iconName: String?): Int {
         "partly_cloudy_light_snow_night" -> R.drawable.partly_cloudy_light_snow_night
         "partly_cloudy_light_snow_with_rain_day" -> R.drawable.partly_cloudy_light_snow_with_rain_day
         "partly_cloudy_light_snow_with_rain_night" -> R.drawable.partly_cloudy_light_snow_with_rain_night
-        else -> R.drawable.ic_launcher_foreground
+        else -> R.drawable.ic_wind_direction
     }
 }

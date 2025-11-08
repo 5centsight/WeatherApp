@@ -30,6 +30,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.data.model.DailyForecastUiModel
+import com.pets.weatherapp.presentation.screens.util.WindDirectionArrow
 
 @Composable
 fun DailyForecastCard(
@@ -55,7 +56,7 @@ fun DailyForecastCard(
                 modifier = Modifier
                     .size(36.dp)
                     .offset(x = 5.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
+                tint = MaterialTheme.colorScheme.surfaceTint
             )
             Row(
                 modifier = Modifier
@@ -74,18 +75,20 @@ fun DailyForecastCard(
                     Text(
                         text = "${forecast.minTemperature}°",
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.surfaceTint
                     )
                     Text(
                         text = "/",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Light,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.surfaceTint
                     )
                     Text(
                         text = "${forecast.maxTemperature}°",
                         style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.SemiBold
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.surfaceTint
                     )
                 }
             }
@@ -119,13 +122,17 @@ fun DailyForecastCardExpansion(forecast: DailyForecastUiModel) {
                     modifier = Modifier
                         .size(36.dp)
                         .align(Alignment.CenterHorizontally),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = MaterialTheme.colorScheme.surfaceTint
                 )
-                Text(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = "${forecast.windPerHour[id]} м/с",
-                    style = MaterialTheme.typography.bodySmall,
-                )
+                Card(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+                    Row {
+                        WindDirectionArrow(forecast.directPerHour[id])
+                        Text(
+                            text = "${forecast.windPerHour[id]} м/с",
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                    }
+                }
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = forecast.hours[id],
