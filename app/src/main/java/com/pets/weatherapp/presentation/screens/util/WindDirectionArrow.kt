@@ -23,14 +23,14 @@ fun WindDirectionArrow(directionDescription: String) {
 
 fun getArrowRotation(iconName: String?): Float {
     return when (iconName) {
-        "С" -> 0f
-        "СВ" -> 45f
-        "В" -> 90f
-        "ЮВ" -> 135f
-        "Ю" -> 180f
-        "ЮЗ" -> 225f
-        "З" -> 270f
-        "СЗ" -> 315f
+        "С" -> 180f
+        "СВ" -> 215f
+        "В" -> 270f
+        "ЮВ" -> 225f
+        "Ю" -> 0f
+        "ЮЗ" -> 45f
+        "З" -> 90f
+        "СЗ" -> 135f
         else -> 0f
     }
 }

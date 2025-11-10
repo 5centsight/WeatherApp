@@ -1,48 +1,80 @@
 package com.pets.weatherapp.domain.repository
 
-import com.pets.weatherapp.data.api.ForecastApi
 import com.pets.weatherapp.data.model.CityUiModel
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
 import com.pets.weatherapp.data.model.DailyForecastUiModel
-import com.pets.weatherapp.domain.mapper.ForecastModelMapper
+import okio.IOException
 
 class ForecastRepository(
-    private val forecastService: ForecastApi,
-    private val mapper: ForecastModelMapper
+    private val remoteRepository: RemoteRepository,
+    private val localRepository: LocalRepository
 ) {
 
     suspend fun getCurrentForecast(cityName: String): CurrentForecastUiModel {
-        val response = forecastService.getCurrentForecast(cityName)
-        return mapper.toForecastUiModel(response)
+        return try {
+            val forecast = remoteRepository.getCurrentForecast(cityName)
+            localRepository.saveCurrentForecastToDb(forecast)
+            forecast
+        } catch (e: IOException) {
+            localRepository.getCurrentForecastFromDb(cityName) ?: throw e
+        }
     }
 
     suspend fun getDailyForecast(cityName: String): List<DailyForecastUiModel> {
-        val response = forecastService.getDailyForecast(cityName)
-        return mapper.toForecastUiModel(response)
+        return try {
+            val forecasts = remoteRepository.getDailyForecast(cityName)
+            localRepository.saveDailyForecastsToDb(forecasts, cityName)
+            forecasts
+        } catch (e: IOException) {
+            localRepository.getDailyForecastsFromDb(cityName).ifEmpty {
+                throw e
+            }
+        }
     }
 
     suspend fun getCities(): List<CityUiModel> {
-        val response = forecastService.getCities()
-        return mapper.toCityUiModel(response)
+        return try {
+            val cities = remoteRepository.getCities()
+            localRepository.saveCitiesToDb(cities)
+            cities
+        } catch (e: IOException) {
+            localRepository.getAllCitiesFromDb().ifEmpty { throw e }
+        }
     }
 
     suspend fun getCityName(cityTitle: String): String {
-        val cities = getCities()
-        return cities.find { it.title == cityTitle }!!.name
+        return try {
+            val cities = getCities()
+            cities.find { it.title == cityTitle }!!.name
+        } catch (e: IOException) {
+            localRepository.getCityNameFromDb(cityTitle) ?: throw e
+        }
     }
 
     suspend fun getCityTitle(name: String): String {
-        val cities = getCities()
-        return cities.find { it.name == name }!!.title
+        return try {
+            val cities = getCities()
+            cities.find { it.name == name }!!.title
+        } catch (e: IOException) {
+            localRepository.getCityTitleFromDb(name) ?: throw e
+        }
     }
 
     suspend fun getCitiesTitlesList(): List<String> {
-        val cities = getCities()
-        return cities.map { it.title }.sorted()
+        return try {
+            val cities = getCities()
+            cities.map { it.title }.sorted()
+        } catch (e: IOException) {
+            localRepository.getAllCitiesFromDb().map { it.title }.sorted().ifEmpty { throw e }
+        }
     }
 
     suspend fun getCitiesNamesList(): List<String> {
-        val cities = getCities()
-        return cities.map { it.name }
+        return try {
+            val cities = getCities()
+            cities.map { it.name }
+        } catch (e: IOException) {
+            localRepository.getAllCitiesFromDb().map { it.name }.ifEmpty { throw e }
+        }
     }
 }
