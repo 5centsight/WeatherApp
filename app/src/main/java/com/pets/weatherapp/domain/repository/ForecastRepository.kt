@@ -1,14 +1,15 @@
 package com.pets.weatherapp.domain.repository
 
-import com.pets.weatherapp.data.api.ApiClient
+import com.pets.weatherapp.data.api.ForecastApi
 import com.pets.weatherapp.data.model.CityUiModel
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
 import com.pets.weatherapp.data.model.DailyForecastUiModel
 import com.pets.weatherapp.domain.mapper.ForecastModelMapper
 
-class ForecastRepository {
-    private val forecastService = ApiClient.weatherService
-    private val mapper = ForecastModelMapper()
+class ForecastRepository(
+    private val forecastService: ForecastApi,
+    private val mapper: ForecastModelMapper
+) {
 
     suspend fun getCurrentForecast(cityName: String): CurrentForecastUiModel {
         val response = forecastService.getCurrentForecast(cityName)

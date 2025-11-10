@@ -10,9 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.koin.android.annotation.KoinViewModel
 
-class ForecastViewModel : ViewModel() {
-    private val repository = ForecastRepository()
+@KoinViewModel
+class ForecastViewModel(
+    private val repository: ForecastRepository
+) : ViewModel() {
     private val _uiState: MutableStateFlow<ForecastUiState> = MutableStateFlow(ForecastUiState())
     val uiState: StateFlow<ForecastUiState> = _uiState.asStateFlow()
 

@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pets.weatherapp.presentation.viewmodel.ForecastViewModel
 import com.pets.weatherapp.presentation.viewmodel.SearchViewModel
 
@@ -37,9 +36,9 @@ import com.pets.weatherapp.presentation.viewmodel.SearchViewModel
 @Composable
 fun CitySearchScreen(
     viewModel: ForecastViewModel,
+    searchViewModel: SearchViewModel,
     onBackClick: () -> Unit
 ) {
-    val searchViewModel: SearchViewModel = viewModel()
     val state by searchViewModel.uiState.collectAsState()
 
     var expanded by remember { mutableStateOf(true) }
