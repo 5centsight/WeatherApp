@@ -7,7 +7,7 @@ import com.pets.weatherapp.data.model.DailyForecastsEntity
 
 @Dao
 interface DailyForecastsDao {
-    @Query("SELECT * FROM daily_forecasts WHERE city_name == :cityName")
+    @Query("SELECT * FROM daily_forecasts WHERE city_name = :cityName")
     suspend fun getDailyForecasts(cityName: String): List<DailyForecastsEntity>
 
     @Upsert
@@ -15,4 +15,7 @@ interface DailyForecastsDao {
 
     @Query("DELETE FROM daily_forecasts WHERE city_name = :cityName")
     suspend fun deleteDailyForecasts(cityName: String)
+
+    @Query("DELETE FROM daily_forecasts WHERE city_name = :cityName AND date < :timestamp")
+    suspend fun deleteOldDailyForecasts(cityName: String, timestamp: Long)
 }

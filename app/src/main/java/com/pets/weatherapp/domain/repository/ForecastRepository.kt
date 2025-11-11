@@ -23,12 +23,11 @@ class ForecastRepository(
     suspend fun getDailyForecast(cityName: String): List<DailyForecastUiModel> {
         return try {
             val forecasts = remoteRepository.getDailyForecast(cityName)
+            localRepository.cleanupOldDailyForecastsData(cityName)
             localRepository.saveDailyForecastsToDb(forecasts, cityName)
             forecasts
         } catch (e: IOException) {
-            localRepository.getDailyForecastsFromDb(cityName).ifEmpty {
-                throw e
-            }
+            localRepository.getDailyForecastsFromDb(cityName).ifEmpty { throw e }
         }
     }
 
@@ -76,5 +75,9 @@ class ForecastRepository(
         } catch (e: IOException) {
             localRepository.getAllCitiesFromDb().map { it.name }.ifEmpty { throw e }
         }
+    }
+
+    suspend fun getLastCityName(): String? {
+        return localRepository.getLastCity()
     }
 }

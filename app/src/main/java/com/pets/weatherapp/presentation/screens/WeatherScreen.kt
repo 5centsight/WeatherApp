@@ -69,7 +69,7 @@ fun WeatherScreen(
 
                 is ForecastState.Error -> {
                     LoadingScreen()
-//                    ErrorScreen(currentState.reason)
+//                    ErrorSnackBar(currentState.reason)
                 }
             }
             PullRefreshIndicator(

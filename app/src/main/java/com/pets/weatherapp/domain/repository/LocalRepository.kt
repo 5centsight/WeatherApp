@@ -48,10 +48,12 @@ class LocalRepository(
         return cityDao.getCityByName(cityName)?.title
     }
 
-    suspend fun cleanupDailyForecastsData() {
-        val cities = getAllCitiesFromDb()
-        cities.forEach {
-            dailyForecastsDao.deleteDailyForecasts(it.name)
-        }
+    suspend fun cleanupOldDailyForecastsData(cityName: String) {
+        val timestamp = System.currentTimeMillis() - (24 * 60 * 60 * 1000)
+        dailyForecastsDao.deleteOldDailyForecasts(cityName, timestamp)
+    }
+
+    suspend fun getLastCity(): String? {
+        return currentForecastDao.getLastUpdatedCity()
     }
 }

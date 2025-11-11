@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ErrorScreen(message: Throwable) {
+fun ErrorSnackBar(message: Throwable) {
     Column(
         modifier = Modifier
             .fillMaxSize()

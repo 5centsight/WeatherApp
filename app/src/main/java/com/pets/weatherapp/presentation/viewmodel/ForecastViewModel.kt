@@ -20,7 +20,15 @@ class ForecastViewModel(
     val uiState: StateFlow<ForecastUiState> = _uiState.asStateFlow()
 
     init {
-        loadWeatherData(_uiState.value.selectedCity)
+        viewModelScope.launch {
+            val cityName = repository.getLastCityName() ?: _uiState.value.selectedCity
+            _uiState.update {
+                it.copy(
+                    selectedCity = cityName
+                )
+            }
+            loadWeatherData(cityName)
+        }
     }
 
     fun loadWeatherData(cityName: String) {
@@ -58,13 +66,13 @@ class ForecastViewModel(
         loadWeatherData(_uiState.value.cityName)
     }
 
-    fun onCitySelected(city: String) {
+    fun onCitySelected(cityTitle: String) {
         viewModelScope.launch {
-            val cityName = repository.getCityName(city)
+            val cityName = repository.getCityName(cityTitle)
             loadWeatherData(cityName)
             _uiState.update {
                 it.copy(
-                    selectedCity = city
+                    selectedCity = cityName
                 )
             }
         }
