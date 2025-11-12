@@ -16,6 +16,6 @@ interface DailyForecastsDao {
     @Query("DELETE FROM daily_forecasts WHERE city_name = :cityName")
     suspend fun deleteDailyForecasts(cityName: String)
 
-    @Query("DELETE FROM daily_forecasts WHERE city_name = :cityName AND date < :timestamp")
+    @Query("DELETE FROM daily_forecasts WHERE city_name = :cityName AND last_updated < :timestamp")
     suspend fun deleteOldDailyForecasts(cityName: String, timestamp: Long)
 }

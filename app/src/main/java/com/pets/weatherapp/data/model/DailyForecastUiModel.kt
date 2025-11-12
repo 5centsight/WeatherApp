@@ -1,6 +1,7 @@
 package com.pets.weatherapp.data.model
 
 data class DailyForecastUiModel(
+    val cityName: String = "",
     val date: String = "",
     val hours: List<String> = emptyList(),
     val tempPerHour: List<Int> = emptyList(),

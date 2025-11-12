@@ -29,6 +29,7 @@ fun DailyForecastsResponse.toForecastUiModel(): List<DailyForecastUiModel> {
     val hourlyForecastsList = this.forecasts
     return hourlyForecastsList.map { it ->
         DailyForecastUiModel(
+            cityName = it.links.city,
             date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault())),
             minTemperature = it.hours[0].temperature.min,
             maxTemperature = it.hours[2].temperature.max,

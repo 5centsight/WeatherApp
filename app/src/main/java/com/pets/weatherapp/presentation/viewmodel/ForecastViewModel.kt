@@ -64,6 +64,8 @@ class ForecastViewModel(
                 _uiState.update {
                     it.copy(
                         forecastState = ForecastState.Error(e),
+                        cityTitle = repository.getCityTitle(cityName),
+                        cityName = cityName,
                         isRefreshing = false
                     )
                 }

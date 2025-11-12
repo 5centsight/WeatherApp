@@ -40,6 +40,7 @@ fun CurrentForecastUiModel.toEntity() = CurrentForecastEntity(
 )
 
 fun DailyForecastsEntity.toUiModel() = DailyForecastUiModel(
+    cityName = cityName,
     date = date,
     hours = hours,
     tempPerHour = tempPerHour,
@@ -55,7 +56,7 @@ fun DailyForecastsEntity.toUiModel() = DailyForecastUiModel(
     iconIds = iconIds
 )
 
-fun DailyForecastUiModel.toEntity(cityName: String) = DailyForecastsEntity(
+fun DailyForecastUiModel.toEntity() = DailyForecastsEntity(
     cityName = cityName,
     date = date,
     hours = hours,

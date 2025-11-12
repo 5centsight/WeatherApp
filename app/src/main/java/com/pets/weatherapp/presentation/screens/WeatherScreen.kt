@@ -112,7 +112,7 @@ fun WeatherContent(
 
         item {
             Text(
-                text = "Прогноз на 10 дней",
+                text = "Прогноз на ${dailyForecast.size} дней",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )

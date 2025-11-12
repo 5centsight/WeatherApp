@@ -2,14 +2,12 @@ package com.pets.weatherapp.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.pets.weatherapp.domain.mapper.SerializationConverters
 
-@Entity(tableName = "daily_forecasts")
+@Entity(tableName = "daily_forecasts", primaryKeys = ["city_name", "date"])
 @TypeConverters(SerializationConverters::class)
 data class DailyForecastsEntity(
-    @PrimaryKey
     @ColumnInfo(name = "date")
     val date: String = "",
     @ColumnInfo(name = "city_name")

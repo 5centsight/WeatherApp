@@ -26,8 +26,8 @@ class LocalRepository(
         return dailyForecastsDao.getDailyForecasts(cityName).map { it.toUiModel() }
     }
 
-    suspend fun saveDailyForecastsToDb(forecasts: List<DailyForecastUiModel>, cityName: String) {
-        val entities = forecasts.map { it.toEntity(cityName) }
+    suspend fun saveDailyForecastsToDb(forecasts: List<DailyForecastUiModel>) {
+        val entities = forecasts.map { it.toEntity() }
         dailyForecastsDao.upsertDailyForecasts(entities)
     }
 
@@ -48,12 +48,18 @@ class LocalRepository(
         return cityDao.getCityByName(cityName)?.title
     }
 
+    suspend fun getLastCity(): String? {
+        return currentForecastDao.getLastUpdatedCity()
+    }
+
+    suspend fun cleanupOldCurrentForecastData(cityName: String) {
+        val timestamp = System.currentTimeMillis() - (24 * 60 * 60 * 1000)
+        currentForecastDao.deleteOldCurrentForecast(cityName, timestamp)
+    }
+
     suspend fun cleanupOldDailyForecastsData(cityName: String) {
         val timestamp = System.currentTimeMillis() - (24 * 60 * 60 * 1000)
         dailyForecastsDao.deleteOldDailyForecasts(cityName, timestamp)
-    }
 
-    suspend fun getLastCity(): String? {
-        return currentForecastDao.getLastUpdatedCity()
     }
 }

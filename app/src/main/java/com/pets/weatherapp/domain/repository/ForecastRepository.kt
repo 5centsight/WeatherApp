@@ -13,9 +13,10 @@ class ForecastRepository(
     suspend fun getCurrentForecast(cityName: String): CurrentForecastUiModel {
         return try {
             val forecast = remoteRepository.getCurrentForecast(cityName)
+            localRepository.cleanupOldCurrentForecastData(cityName)
             localRepository.saveCurrentForecastToDb(forecast)
             forecast
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             localRepository.getCurrentForecastFromDb(cityName) ?: throw e
         }
     }
@@ -24,9 +25,9 @@ class ForecastRepository(
         return try {
             val forecasts = remoteRepository.getDailyForecast(cityName)
             localRepository.cleanupOldDailyForecastsData(cityName)
-            localRepository.saveDailyForecastsToDb(forecasts, cityName)
+            localRepository.saveDailyForecastsToDb(forecasts)
             forecasts
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             localRepository.getDailyForecastsFromDb(cityName).sortedBy { it.date }
         }
     }
