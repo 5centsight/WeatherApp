@@ -14,10 +14,13 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.data.model.CurrentForecastUiModel
 import com.pets.weatherapp.data.model.DailyForecastUiModel
 import com.pets.weatherapp.data.model.ForecastState
+import com.pets.weatherapp.presentation.screens.util.ErrorSnackBar
 import com.pets.weatherapp.presentation.screens.util.LoadingScreen
 import com.pets.weatherapp.presentation.viewmodel.ForecastViewModel
 
@@ -37,6 +41,13 @@ fun WeatherScreen(
     onSearchClick: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
+    val snackBarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(Unit) {
+        viewModel.snackBarMessages.collect { message ->
+            snackBarHostState.showSnackbar(message)
+        }
+    }
 
     val pullRefreshState = rememberPullRefreshState(
         refreshing = state.isRefreshing,
@@ -52,7 +63,8 @@ fun WeatherScreen(
                 cityName = state.cityTitle,
                 onSearchClick = onSearchClick
             )
-        }
+        },
+        snackbarHost = { ErrorSnackBar(snackBarHostState) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -69,7 +81,6 @@ fun WeatherScreen(
 
                 is ForecastState.Error -> {
                     LoadingScreen()
-//                    ErrorSnackBar(currentState.reason)
                 }
             }
             PullRefreshIndicator(

@@ -18,7 +18,7 @@ import com.pets.weatherapp.data.model.DailyForecastsEntity
     exportSchema = false
 )
 
-abstract class AppDb: RoomDatabase() {
+abstract class AppDb : RoomDatabase() {
     abstract fun currentForecastDao(): CurrentForecastDao
     abstract fun dailyForecastDao(): DailyForecastsDao
     abstract fun cityDao(): CityDao

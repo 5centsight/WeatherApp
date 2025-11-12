@@ -28,7 +28,7 @@ fun AppNavGraph(
         }
 
         composable(route = Screen.CitySearch.route) {
-            val searchViewModel: SearchViewModel= koinViewModel()
+            val searchViewModel: SearchViewModel = koinViewModel()
             CitySearchScreen(
                 viewModel = forecastViewModel,
                 searchViewModel = searchViewModel,

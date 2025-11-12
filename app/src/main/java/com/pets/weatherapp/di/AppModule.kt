@@ -19,7 +19,7 @@ val appModule = module {
     single { LocalRepository(get()) }
     single { RemoteRepository(get()) }
 
-    single { ForecastRepository(get(),get()) }
+    single { ForecastRepository(get(), get()) }
 
     viewModel { ForecastViewModel(repository = get()) }
     viewModel { SearchViewModel(repository = get()) }

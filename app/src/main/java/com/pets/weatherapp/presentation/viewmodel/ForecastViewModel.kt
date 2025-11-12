@@ -5,12 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.pets.weatherapp.data.model.ForecastState
 import com.pets.weatherapp.data.model.ForecastUiState
 import com.pets.weatherapp.domain.repository.ForecastRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import java.io.IOException
 
 @KoinViewModel
 class ForecastViewModel(
@@ -18,6 +21,9 @@ class ForecastViewModel(
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<ForecastUiState> = MutableStateFlow(ForecastUiState())
     val uiState: StateFlow<ForecastUiState> = _uiState.asStateFlow()
+
+    private val _snackBarMessages = MutableSharedFlow<String>()
+    val snackBarMessages = _snackBarMessages.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -50,6 +56,10 @@ class ForecastViewModel(
                         isRefreshing = false
                     )
                 }
+                val wasOffline = repository.wasOfflineDataUsed(cityName)
+                if (wasOffline) {
+                    showMessage("Нет подключения к интернету")
+                }
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
@@ -57,6 +67,11 @@ class ForecastViewModel(
                         isRefreshing = false
                     )
                 }
+                val errorMessage = when (e) {
+                    is IOException -> "Нет подключения к интернету"
+                    else -> "Ошибка загрузки данных"
+                }
+                showMessage(errorMessage)
             }
         }
     }
@@ -75,6 +90,12 @@ class ForecastViewModel(
                     selectedCity = cityName
                 )
             }
+        }
+    }
+
+    private fun showMessage(message: String) {
+        viewModelScope.launch {
+            _snackBarMessages.emit(message)
         }
     }
 }

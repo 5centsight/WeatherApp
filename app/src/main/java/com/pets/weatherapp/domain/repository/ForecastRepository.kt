@@ -27,7 +27,7 @@ class ForecastRepository(
             localRepository.saveDailyForecastsToDb(forecasts, cityName)
             forecasts
         } catch (e: IOException) {
-            localRepository.getDailyForecastsFromDb(cityName).ifEmpty { throw e }
+            localRepository.getDailyForecastsFromDb(cityName).sortedBy { it.date }
         }
     }
 
@@ -79,5 +79,14 @@ class ForecastRepository(
 
     suspend fun getLastCityName(): String? {
         return localRepository.getLastCity()
+    }
+
+    suspend fun wasOfflineDataUsed(cityName: String): Boolean {
+        return try {
+            remoteRepository.getCurrentForecast(cityName)
+            false
+        } catch (_: Exception) {
+            true
+        }
     }
 }
