@@ -29,8 +29,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
-import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastViewModel
 import com.pets.weatherapp.presentation.screens.citysearch.presentation.SearchViewModel
+import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

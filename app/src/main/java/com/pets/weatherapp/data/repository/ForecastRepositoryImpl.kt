@@ -1,11 +1,11 @@
 package com.pets.weatherapp.data.repository
 
+import com.pets.weatherapp.data.datasource.LocalForecastDataSource
+import com.pets.weatherapp.data.datasource.RemoteForecastDataSource
 import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
 import com.pets.weatherapp.domain.repository.ForecastRepository
-import com.pets.weatherapp.data.datasource.LocalForecastDataSource
-import com.pets.weatherapp.data.datasource.RemoteForecastDataSource
 import okio.IOException
 
 class ForecastRepositoryImpl(
@@ -68,7 +68,8 @@ class ForecastRepositoryImpl(
             val cities = getCities()
             cities.map { it.title }.sorted()
         } catch (e: IOException) {
-            localForecastDataSource.getAllCitiesFromDb().map { it.title }.sorted().ifEmpty { throw e }
+            localForecastDataSource.getAllCitiesFromDb().map { it.title }.sorted()
+                .ifEmpty { throw e }
         }
     }
 

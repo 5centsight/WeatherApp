@@ -29,9 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
 import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastState
-import com.pets.weatherapp.presentation.screens.ErrorSnackBar
-import com.pets.weatherapp.presentation.screens.LoadingScreen
 import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastViewModel
+import com.pets.weatherapp.presentation.screens.weather.presentation.SnackMessage
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -45,7 +44,12 @@ fun WeatherScreen(
 
     LaunchedEffect(Unit) {
         viewModel.snackBarMessages.collect { message ->
-            snackBarHostState.showSnackbar(message)
+            val text = when (message) {
+                is SnackMessage.NoInternet -> "Нет интернет-соединения"
+                is SnackMessage.LoadError -> "Ошибка загрузки данных"
+                is SnackMessage.CustomSnackMessage -> message.text
+            }
+            snackBarHostState.showSnackbar(text)
         }
     }
 
@@ -64,7 +68,7 @@ fun WeatherScreen(
                 onSearchClick = onSearchClick
             )
         },
-        snackbarHost = { ErrorSnackBar(snackBarHostState) }
+        snackbarHost = { WeatherSnackBar(snackBarHostState) }
     ) { paddingValues ->
         Box(
             modifier = Modifier

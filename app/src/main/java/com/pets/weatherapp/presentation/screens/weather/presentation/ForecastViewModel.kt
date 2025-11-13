@@ -20,16 +20,14 @@ class ForecastViewModel(
     private val _uiState: MutableStateFlow<ForecastUiState> = MutableStateFlow(ForecastUiState())
     val uiState: StateFlow<ForecastUiState> = _uiState.asStateFlow()
 
-    private val _snackBarMessages = MutableSharedFlow<String>()
+    private val _snackBarMessages = MutableSharedFlow<SnackMessage>()
     val snackBarMessages = _snackBarMessages.asSharedFlow()
 
     init {
         viewModelScope.launch {
             val cityName = repository.getLastCityName() ?: _uiState.value.selectedCity
             _uiState.update {
-                it.copy(
-                    selectedCity = cityName
-                )
+                it.copy(selectedCity = cityName)
             }
             loadWeatherData(cityName)
         }
@@ -38,9 +36,7 @@ class ForecastViewModel(
     fun loadWeatherData(cityName: String) {
         viewModelScope.launch {
             _uiState.update {
-                it.copy(
-                    isRefreshing = true
-                )
+                it.copy(isRefreshing = true)
             }
             try {
                 val currentWeather = repository.getCurrentForecast(cityName)
@@ -55,9 +51,8 @@ class ForecastViewModel(
                     )
                 }
                 val wasOffline = repository.wasOfflineDataUsed(cityName)
-                if (wasOffline) {
-                    showMessage("Нет подключения к интернету")
-                }
+                if (wasOffline) showMessage(SnackMessage.NoInternet)
+
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
@@ -67,11 +62,11 @@ class ForecastViewModel(
                         isRefreshing = false
                     )
                 }
-                val errorMessage = when (e) {
-                    is IOException -> "Нет подключения к интернету"
-                    else -> "Ошибка загрузки данных"
+                val errorSnackMessage = when (e) {
+                    is IOException -> SnackMessage.NoInternet
+                    else -> SnackMessage.LoadError
                 }
-                showMessage(errorMessage)
+                showMessage(errorSnackMessage)
             }
         }
     }
@@ -86,16 +81,14 @@ class ForecastViewModel(
             val cityName = repository.getCityName(cityTitle)
             loadWeatherData(cityName)
             _uiState.update {
-                it.copy(
-                    selectedCity = cityName
-                )
+                it.copy(selectedCity = cityName)
             }
         }
     }
 
-    private fun showMessage(message: String) {
+    private fun showMessage(snackMessage: SnackMessage) {
         viewModelScope.launch {
-            _snackBarMessages.emit(message)
+            _snackBarMessages.emit(snackMessage)
         }
     }
 }

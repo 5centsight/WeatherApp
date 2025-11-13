@@ -1,12 +1,12 @@
 package com.pets.weatherapp.data.dto
 
+import com.pets.weatherapp.data.dto.InstantSerializer.Companion.FORMATTER
 import com.pets.weatherapp.data.model.CitiesResponse
-import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.data.model.CurrentForecastResponse
+import com.pets.weatherapp.data.model.DailyForecastResponse
+import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
-import com.pets.weatherapp.data.model.DailyForecastResponse
-import com.pets.weatherapp.data.dto.InstantSerializer.Companion.FORMATTER
 import com.pets.weatherapp.presentation.screens.weather.presentation.getWeatherIconRes
 import java.time.ZoneId
 

@@ -1,4 +1,4 @@
-package com.pets.weatherapp.presentation.screens
+package com.pets.weatherapp.presentation.screens.weather.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ErrorSnackBar(state: SnackbarHostState) {
+fun WeatherSnackBar(state: SnackbarHostState) {
     SnackbarHost(hostState = state) { data ->
         Snackbar(
             modifier = Modifier.padding(16.dp),

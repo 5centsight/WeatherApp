@@ -1,4 +1,4 @@
-package com.pets.weatherapp.presentation.screens
+package com.pets.weatherapp.presentation.screens.weather.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

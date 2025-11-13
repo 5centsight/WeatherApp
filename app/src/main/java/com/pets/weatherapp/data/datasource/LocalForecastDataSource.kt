@@ -1,11 +1,11 @@
 package com.pets.weatherapp.data.datasource
 
 import com.pets.weatherapp.data.dao.AppDb
+import com.pets.weatherapp.data.dto.toEntity
+import com.pets.weatherapp.data.dto.toUiModel
 import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
-import com.pets.weatherapp.data.dto.toEntity
-import com.pets.weatherapp.data.dto.toUiModel
 
 class LocalForecastDataSource(
     dao: AppDb

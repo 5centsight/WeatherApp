@@ -1,11 +1,11 @@
 package com.pets.weatherapp.data.dto
 
 import com.pets.weatherapp.data.model.CityRoomEntity
-import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.data.model.CurrentForecastRoomEntity
+import com.pets.weatherapp.data.model.DailyForecastRoomEntity
+import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
-import com.pets.weatherapp.data.model.DailyForecastRoomEntity
 
 fun CityRoomEntity.toUiModel() = City(
     name = name,
