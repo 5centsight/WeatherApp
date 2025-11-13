@@ -30,7 +30,7 @@ class ForecastRepositoryImpl(
             localForecastDataSource.cleanupOldDailyForecastsData(cityName)
             localForecastDataSource.saveDailyForecastsToDb(forecasts)
             forecasts
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             localForecastDataSource.getDailyForecastsFromDb(cityName).sortedBy { it.date }
         }
     }
