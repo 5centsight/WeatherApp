@@ -4,15 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.pets.weatherapp.data.model.CityEntity
-import com.pets.weatherapp.data.model.CurrentForecastEntity
-import com.pets.weatherapp.data.model.DailyForecastsEntity
+import com.pets.weatherapp.data.model.CityRoomEntity
+import com.pets.weatherapp.data.model.CurrentForecastRoomEntity
+import com.pets.weatherapp.data.model.DailyForecastRoomEntity
 
 @Database(
     entities = [
-        CurrentForecastEntity::class,
-        DailyForecastsEntity::class,
-        CityEntity::class
+        CurrentForecastRoomEntity::class,
+        DailyForecastRoomEntity::class,
+        CityRoomEntity::class
     ],
     version = 1,
     exportSchema = false

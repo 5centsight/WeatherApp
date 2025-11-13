@@ -5,10 +5,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pets.weatherapp.presentation.screens.CitySearchScreen
-import com.pets.weatherapp.presentation.screens.WeatherScreen
-import com.pets.weatherapp.presentation.viewmodel.ForecastViewModel
-import com.pets.weatherapp.presentation.viewmodel.SearchViewModel
+import com.pets.weatherapp.presentation.screens.citysearch.ui.CitySearchScreen
+import com.pets.weatherapp.presentation.screens.weather.ui.WeatherScreen
+import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastViewModel
+import com.pets.weatherapp.presentation.screens.citysearch.presentation.SearchViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

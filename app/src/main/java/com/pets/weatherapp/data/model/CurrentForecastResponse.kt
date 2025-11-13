@@ -1,6 +1,6 @@
 package com.pets.weatherapp.data.model
 
-import com.pets.weatherapp.domain.mapper.InstantSerializer
+import com.pets.weatherapp.data.dto.InstantSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.Instant
