@@ -54,12 +54,12 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getCityTitle(cityName: String): String {
+    override suspend fun getCityTitle(cityName: String): String? {
         return try {
             val cities = getCities()
             cities.find { it.name == cityName }!!.title
         } catch (e: IOException) {
-            localForecastDataSource.getCityTitleFromDb(cityName) ?: throw e
+            localForecastDataSource.getCityTitleFromDb(cityName)
         }
     }
 

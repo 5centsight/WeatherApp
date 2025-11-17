@@ -50,7 +50,7 @@ fun CitySearchScreen(
         emptyList()
     } else {
         cities.filter {
-            it.contains(textFieldState.text, ignoreCase = true)
+            it.contains(textFieldState.text.trim(), ignoreCase = true)
         }
     }
 

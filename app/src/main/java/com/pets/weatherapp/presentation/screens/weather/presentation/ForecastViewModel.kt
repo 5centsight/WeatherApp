@@ -55,7 +55,7 @@ class ForecastViewModel(
                 _uiState.update {
                     it.copy(
                         forecastState = ForecastState.Success(currentWeather, dailyForecast),
-                        cityTitle = cityTitle,
+                        cityTitle = cityTitle ?: _uiState.value.cityTitle,
                         cityName = cityName,
                         isRefreshing = false
                     )
@@ -66,7 +66,7 @@ class ForecastViewModel(
                 } else {
                     val cachedData = CachedForecast(
                         cityName = currentWeather.city,
-                        cityTitle = cityTitle,
+                        cityTitle = cityTitle ?: _uiState.value.cityTitle,
                         temperature = currentWeather.temperature,
                         feelLikeTemp = currentWeather.feelLikeTemp,
                         cloud = currentWeather.cloud,
@@ -84,7 +84,7 @@ class ForecastViewModel(
                 _uiState.update {
                     it.copy(
                         forecastState = ForecastState.Error(e),
-                        cityTitle = repository.getCityTitle(cityName),
+                        cityTitle = repository.getCityTitle(cityName) ?: _uiState.value.cityTitle,
                         cityName = cityName,
                         isRefreshing = false
                     )

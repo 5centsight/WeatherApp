@@ -13,7 +13,7 @@ interface ForecastRepository {
 
     suspend fun getCityName(cityTitle: String): String = error("Not implemented")
 
-    suspend fun getCityTitle(cityName: String): String = error("Not implemented")
+    suspend fun getCityTitle(cityName: String): String? = error("Not implemented")
 
     suspend fun getCitiesNamesList(): List<String> = error("Not implemented")
 
