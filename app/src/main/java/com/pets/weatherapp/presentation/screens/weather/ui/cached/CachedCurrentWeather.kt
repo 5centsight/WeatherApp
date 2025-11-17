@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -32,25 +31,25 @@ fun CachedCurrentWeather(cachedData: CachedForecast) {
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
+                .padding(16.dp)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(cachedData.iconId),
                 contentDescription = "Weather image",
-                modifier = Modifier
-                    .size(150.dp)
-                    .padding(16.dp),
+                modifier = Modifier.weight(0.4f),
                 tint = MaterialTheme.colorScheme.surfaceTint
             )
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .weight(0.9f, fill = true),
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
                     text = "${cachedData.temperature}°C",
                     style = MaterialTheme.typography.displayLarge,
                     fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.End,
                     color = MaterialTheme.colorScheme.surfaceTint
                 )
 
@@ -58,6 +57,7 @@ fun CachedCurrentWeather(cachedData: CachedForecast) {
 
                 Text(
                     text = "Ощущается как ${cachedData.feelLikeTemp}°C",
+                    textAlign = TextAlign.End,
                     style = MaterialTheme.typography.bodyLarge
                 )
 

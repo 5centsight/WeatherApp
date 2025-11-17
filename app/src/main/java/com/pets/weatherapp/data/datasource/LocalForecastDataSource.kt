@@ -48,10 +48,6 @@ class LocalForecastDataSource(
         return cityDao.getCityByName(cityName)?.title
     }
 
-    suspend fun getLastCity(): String? {
-        return currentForecastDao.getLastUpdatedCity()
-    }
-
     suspend fun cleanupOldCurrentForecastData(cityName: String) {
         val timestamp = System.currentTimeMillis() - (24 * 60 * 60 * 1000)
         currentForecastDao.deleteOldCurrentForecast(cityName, timestamp)

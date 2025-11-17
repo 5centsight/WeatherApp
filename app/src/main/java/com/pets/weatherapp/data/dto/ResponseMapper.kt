@@ -30,7 +30,8 @@ fun DailyForecastResponse.toForecastUiModel(): List<DailyForecast> {
     return hourlyForecastsList.map { it ->
         DailyForecast(
             cityName = it.links.city,
-            date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault())),
+            date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault()))
+                .replaceFirstChar { it.titlecase() },
             minTemperature = it.hours[0].temperature.min,
             maxTemperature = it.hours[2].temperature.max,
             hours = (0..3).map { id ->

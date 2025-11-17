@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.pets.weatherapp"
-        minSdk = 27
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"

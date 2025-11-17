@@ -34,6 +34,8 @@ import com.pets.weatherapp.presentation.screens.weather.presentation.SnackMessag
 import com.pets.weatherapp.presentation.screens.weather.ui.cached.CachedWeatherContent
 import com.pets.weatherapp.presentation.screens.weather.ui.component.ToolBar
 import com.pets.weatherapp.presentation.screens.weather.ui.component.WeatherSnackBar
+import com.pets.weatherapp.presentation.screens.weather.ui.successed.CurrentWeatherCard
+import com.pets.weatherapp.presentation.screens.weather.ui.successed.DailyForecastCard
 
 
 @OptIn(ExperimentalMaterialApi::class)

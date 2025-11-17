@@ -31,7 +31,7 @@ class ForecastRepositoryImpl(
             localForecastDataSource.saveDailyForecastsToDb(forecasts)
             forecasts
         } catch (_: Exception) {
-            localForecastDataSource.getDailyForecastsFromDb(cityName).sortedBy { it.date }
+            localForecastDataSource.getDailyForecastsFromDb(cityName).sortedBy { it.date.drop(4) }
         }
     }
 

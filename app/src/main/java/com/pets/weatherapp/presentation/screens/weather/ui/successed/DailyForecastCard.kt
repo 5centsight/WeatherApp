@@ -1,4 +1,4 @@
-package com.pets.weatherapp.presentation.screens.weather.ui
+package com.pets.weatherapp.presentation.screens.weather.ui.successed
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable

@@ -27,7 +27,7 @@ class InstantSerializer : KSerializer<Instant> {
 
     companion object {
         val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "dd MMMM", Locale("ru")
+            "EE, dd MMMM", Locale("ru")
         )
     }
 }
