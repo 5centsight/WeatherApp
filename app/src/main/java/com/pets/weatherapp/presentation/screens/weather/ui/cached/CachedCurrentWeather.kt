@@ -1,4 +1,4 @@
-package com.pets.weatherapp.presentation.screens.weather.ui
+package com.pets.weatherapp.presentation.screens.weather.ui.cached
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,12 +20,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.pets.weatherapp.domain.entity.CurrentForecast
+import com.pets.weatherapp.data.model.CachedForecast
 
 @Composable
-fun CurrentWeatherCard(
-    forecast: CurrentForecast,
-) {
+fun CachedCurrentWeather(cachedData: CachedForecast) {
     Card(
         elevation = CardDefaults.cardElevation(4.dp),
         modifier = Modifier.fillMaxWidth()
@@ -36,7 +34,7 @@ fun CurrentWeatherCard(
                 .align(Alignment.CenterHorizontally)
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(forecast.iconId),
+                imageVector = ImageVector.vectorResource(cachedData.iconId),
                 contentDescription = "Weather image",
                 modifier = Modifier
                     .size(150.dp)
@@ -50,7 +48,7 @@ fun CurrentWeatherCard(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = "${forecast.temperature}°C",
+                    text = "${cachedData.temperature}°C",
                     style = MaterialTheme.typography.displayLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.surfaceTint
@@ -59,14 +57,14 @@ fun CurrentWeatherCard(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "Ощущается как ${forecast.feelLikeTemp}°C",
+                    text = "Ощущается как ${cachedData.feelLikeTemp}°C",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = "${forecast.cloud}, ${forecast.precipitation}",
+                    text = "${cachedData.cloud}, ${cachedData.precipitation}",
                     textAlign = TextAlign.End,
                     style = MaterialTheme.typography.bodyMedium
                 )

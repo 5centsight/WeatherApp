@@ -31,6 +31,9 @@ import com.pets.weatherapp.domain.entity.DailyForecast
 import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastState
 import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastViewModel
 import com.pets.weatherapp.presentation.screens.weather.presentation.SnackMessage
+import com.pets.weatherapp.presentation.screens.weather.ui.cached.CachedWeatherContent
+import com.pets.weatherapp.presentation.screens.weather.ui.component.ToolBar
+import com.pets.weatherapp.presentation.screens.weather.ui.component.WeatherSnackBar
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -78,6 +81,7 @@ fun WeatherScreen(
         ) {
             when (val currentState = state.forecastState) {
                 is ForecastState.Loading -> LoadingScreen()
+                is ForecastState.Cached -> CachedWeatherContent(currentState.cachedForecast)
                 is ForecastState.Success -> WeatherContent(
                     currentState.currentWeather,
                     currentState.dailyForecast

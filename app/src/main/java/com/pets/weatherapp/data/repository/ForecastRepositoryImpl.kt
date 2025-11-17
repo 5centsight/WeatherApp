@@ -82,10 +82,6 @@ class ForecastRepositoryImpl(
         }
     }
 
-    override suspend fun getLastCityName(): String? {
-        return localForecastDataSource.getLastCity()
-    }
-
     override suspend fun wasOfflineDataUsed(cityName: String): Boolean {
         return try {
             remoteForecastDataSource.getCurrentForecast(cityName)

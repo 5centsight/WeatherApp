@@ -2,12 +2,15 @@ package com.pets.weatherapp.presentation.screens.weather.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pets.weatherapp.data.model.CachedForecast
+import com.pets.weatherapp.domain.repository.CacheRepository
 import com.pets.weatherapp.domain.repository.ForecastRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
@@ -15,7 +18,8 @@ import java.io.IOException
 
 @KoinViewModel
 class ForecastViewModel(
-    private val repository: ForecastRepository
+    private val repository: ForecastRepository,
+    private val cacheRepository: CacheRepository
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<ForecastUiState> = MutableStateFlow(ForecastUiState())
     val uiState: StateFlow<ForecastUiState> = _uiState.asStateFlow()
@@ -25,11 +29,17 @@ class ForecastViewModel(
 
     init {
         viewModelScope.launch {
-            val cityName = repository.getLastCityName() ?: _uiState.value.selectedCity
-            _uiState.update {
-                it.copy(selectedCity = cityName)
+            val cachedData = cacheRepository.cachedForecast.first()
+            if (cachedData != null) {
+                _uiState.update {
+                    it.copy(
+                        cityName = cachedData.cityName,
+                        cityTitle = cachedData.cityTitle,
+                        forecastState = ForecastState.Cached(cachedData)
+                    )
+                }
             }
-            loadWeatherData(cityName)
+            loadWeatherData(_uiState.value.cityName)
         }
     }
 
@@ -51,7 +61,24 @@ class ForecastViewModel(
                     )
                 }
                 val wasOffline = repository.wasOfflineDataUsed(cityName)
-                if (wasOffline) showMessage(SnackMessage.NoInternet)
+                if (wasOffline) {
+                    showMessage(SnackMessage.NoInternet)
+                } else {
+                    val cachedData = CachedForecast(
+                        cityName = currentWeather.city,
+                        cityTitle = cityTitle,
+                        temperature = currentWeather.temperature,
+                        feelLikeTemp = currentWeather.feelLikeTemp,
+                        cloud = currentWeather.cloud,
+                        precipitation = currentWeather.precipitation,
+                        iconId = currentWeather.iconId,
+                        dailyMinTemp = dailyForecast.map { it.minTemperature },
+                        dailyMaxTemp = dailyForecast.map { it.maxTemperature },
+                        dailyDate = dailyForecast.map { it.date },
+                        dailyIconId = dailyForecast.map { it.iconIds[2] }
+                    )
+                    cacheRepository.cacheForecastData(cachedData)
+                }
 
             } catch (e: Exception) {
                 _uiState.update {
@@ -81,7 +108,7 @@ class ForecastViewModel(
             val cityName = repository.getCityName(cityTitle)
             loadWeatherData(cityName)
             _uiState.update {
-                it.copy(selectedCity = cityName)
+                it.copy(cityName = cityName)
             }
         }
     }

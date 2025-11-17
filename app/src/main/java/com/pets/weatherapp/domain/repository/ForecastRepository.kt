@@ -19,7 +19,5 @@ interface ForecastRepository {
 
     suspend fun getCitiesTitlesList(): List<String> = error("Not implemented")
 
-    suspend fun getLastCityName(): String? = error("Not implemented")
-
     suspend fun wasOfflineDataUsed(cityName: String): Boolean = error("Nor implemented")
 }

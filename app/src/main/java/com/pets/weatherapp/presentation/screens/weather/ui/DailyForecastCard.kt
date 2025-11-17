@@ -30,6 +30,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pets.weatherapp.domain.entity.DailyForecast
+import com.pets.weatherapp.presentation.screens.weather.ui.component.WindDirectionArrow
 
 @Composable
 fun DailyForecastCard(
@@ -50,7 +51,7 @@ fun DailyForecastCard(
             }
         ) {
             Icon(
-                imageVector = ImageVector.vectorResource(forecast.iconIds[0]),
+                imageVector = ImageVector.vectorResource(forecast.iconIds[2]),
                 contentDescription = "Weather image",
                 modifier = Modifier
                     .size(36.dp)
