@@ -1,8 +1,11 @@
 package com.pets.weatherapp.data.datasource
 
 import com.pets.weatherapp.data.dao.AppDb
+import com.pets.weatherapp.data.dto.toEntities
 import com.pets.weatherapp.data.dto.toEntity
 import com.pets.weatherapp.data.dto.toUiModel
+import com.pets.weatherapp.data.dto.toDailyForecast
+import com.pets.weatherapp.data.model.DailyForecastResponse
 import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
@@ -23,11 +26,11 @@ class LocalForecastDataSource(
     }
 
     suspend fun getDailyForecastsFromDb(cityName: String): List<DailyForecast> {
-        return dailyForecastsDao.getDailyForecasts(cityName).map { it.toUiModel() }
+        return dailyForecastsDao.getDailyForecasts(cityName).map { it.toDailyForecast() }
     }
 
-    suspend fun saveDailyForecastsToDb(forecasts: List<DailyForecast>) {
-        val entities = forecasts.map { it.toEntity() }
+    suspend fun saveDailyForecastsToDb(forecasts: DailyForecastResponse) {
+        val entities = forecasts.toEntities()
         dailyForecastsDao.upsertDailyForecasts(entities)
     }
 

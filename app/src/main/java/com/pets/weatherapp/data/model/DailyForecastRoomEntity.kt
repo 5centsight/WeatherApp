@@ -4,12 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.TypeConverters
 import com.pets.weatherapp.data.dto.SerializationConverters
+import java.time.Instant
 
 @Entity(tableName = "daily_forecasts", primaryKeys = ["city_name", "date"])
 @TypeConverters(SerializationConverters::class)
 data class DailyForecastRoomEntity(
     @ColumnInfo(name = "date")
-    val date: String = "",
+    val date: Instant,
     @ColumnInfo(name = "city_name")
     val cityName: String = "",
     @ColumnInfo(name = "hours")

@@ -2,6 +2,7 @@ package com.pets.weatherapp.data.repository
 
 import com.pets.weatherapp.data.datasource.LocalForecastDataSource
 import com.pets.weatherapp.data.datasource.RemoteForecastDataSource
+import com.pets.weatherapp.data.dto.toDailyForecastList
 import com.pets.weatherapp.domain.entity.City
 import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
@@ -29,9 +30,9 @@ class ForecastRepositoryImpl(
             val forecasts = remoteForecastDataSource.getDailyForecast(cityName)
             localForecastDataSource.cleanupOldDailyForecastsData(cityName)
             localForecastDataSource.saveDailyForecastsToDb(forecasts)
-            forecasts
+            forecasts.toDailyForecastList()
         } catch (_: Exception) {
-            localForecastDataSource.getDailyForecastsFromDb(cityName).sortedBy { it.date.drop(4) }
+            localForecastDataSource.getDailyForecastsFromDb(cityName)
         }
     }
 
@@ -58,7 +59,7 @@ class ForecastRepositoryImpl(
         return try {
             val cities = getCities()
             cities.find { it.name == cityName }!!.title
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             localForecastDataSource.getCityTitleFromDb(cityName)
         }
     }

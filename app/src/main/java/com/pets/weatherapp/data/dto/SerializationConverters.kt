@@ -4,6 +4,10 @@ import androidx.room.TypeConverter
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
+import java.time.Instant
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class SerializationConverters {
 
@@ -12,6 +16,18 @@ class SerializationConverters {
         coerceInputValues = true
         encodeDefaults = true
         isLenient = true
+    }
+
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd\'T\'HH:mm:ssXX")
+
+    @TypeConverter
+    fun fromInstant(instant: Instant): String {
+        return formatter.format(instant.atZone(ZoneId.systemDefault()))
+    }
+
+    @TypeConverter
+    fun toInstant(value: String?): Instant {
+        return ZonedDateTime.parse(value, formatter).toInstant()
     }
 
     @TypeConverter

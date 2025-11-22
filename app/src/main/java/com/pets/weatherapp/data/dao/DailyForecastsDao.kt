@@ -7,7 +7,7 @@ import com.pets.weatherapp.data.model.DailyForecastRoomEntity
 
 @Dao
 interface DailyForecastsDao {
-    @Query("SELECT * FROM daily_forecasts WHERE city_name = :cityName")
+    @Query("SELECT * FROM daily_forecasts WHERE city_name = :cityName ORDER BY date")
     suspend fun getDailyForecasts(cityName: String): List<DailyForecastRoomEntity>
 
     @Upsert

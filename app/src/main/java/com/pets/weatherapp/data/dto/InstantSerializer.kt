@@ -26,7 +26,7 @@ class InstantSerializer : KSerializer<Instant> {
     }
 
     companion object {
-        val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern(
+        val WEEK_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern(
             "EE, dd MMMM", Locale("ru")
         )
     }

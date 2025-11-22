@@ -1,6 +1,5 @@
 package com.pets.weatherapp.data.dto
 
-import com.pets.weatherapp.data.dto.InstantSerializer.Companion.FORMATTER
 import com.pets.weatherapp.data.model.CitiesResponse
 import com.pets.weatherapp.data.model.CurrentForecastResponse
 import com.pets.weatherapp.data.model.DailyForecastResponse
@@ -9,13 +8,20 @@ import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
 import com.pets.weatherapp.presentation.screens.weather.presentation.getWeatherIconRes
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
-fun CurrentForecastResponse.toForecastUiModel(): CurrentForecast {
+private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
+    "EE, dd MMMM",
+    Locale("ru")
+)
+
+fun CurrentForecastResponse.toCurrentForecast(): CurrentForecast {
     val forecast = this.forecasts.first()
     return CurrentForecast(
         city = forecast.links.city,
-        date = FORMATTER.format(forecast.date.atZone(ZoneId.systemDefault())),
-        updateDate = FORMATTER.format(forecast.updateDate.atZone(ZoneId.systemDefault())),
+        date = formatter.format(forecast.date.atZone(ZoneId.systemDefault())),
+        updateDate = formatter.format(forecast.updateDate.atZone(ZoneId.systemDefault())),
         temperature = forecast.temperature,
         feelLikeTemp = forecast.feelLikeTemp,
         humidity = forecast.humidity,
@@ -25,12 +31,12 @@ fun CurrentForecastResponse.toForecastUiModel(): CurrentForecast {
     )
 }
 
-fun DailyForecastResponse.toForecastUiModel(): List<DailyForecast> {
+fun DailyForecastResponse.toDailyForecastList(): List<DailyForecast> {
     val hourlyForecastsList = this.forecasts
     return hourlyForecastsList.map { it ->
         DailyForecast(
             cityName = it.links.city,
-            date = FORMATTER.format(it.date.atZone(ZoneId.systemDefault()))
+            date = formatter.format(it.date.atZone(ZoneId.systemDefault()))
                 .replaceFirstChar { it.titlecase() },
             minTemperature = it.hours[0].temperature.min,
             maxTemperature = it.hours[2].temperature.max,
@@ -58,7 +64,7 @@ fun DailyForecastResponse.toForecastUiModel(): List<DailyForecast> {
     }
 }
 
-fun CitiesResponse.toCityUiModel(): List<City> {
+fun CitiesResponse.toCityList(): List<City> {
     val citiesList = this.cities
     return citiesList.map { it ->
         City(
