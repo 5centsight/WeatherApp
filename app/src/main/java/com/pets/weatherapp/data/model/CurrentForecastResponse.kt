@@ -32,7 +32,7 @@ data class Forecast(
     @SerialName("cloud")
     val cloud: CoupledDetails,
     @SerialName("wind")
-    val wind: CurrentWind,
+    val wind: CurrentWind?,
     @SerialName("precipitation")
     val precipitation: CoupledDetails,
     @SerialName("astronomy")
