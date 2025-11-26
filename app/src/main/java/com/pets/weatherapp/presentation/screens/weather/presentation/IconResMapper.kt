@@ -20,8 +20,8 @@ fun getWeatherIconRes(iconName: String?): Int {
         "sunshine_snow_night" -> R.drawable.partly_cloudy_snow_night
         "sunshine_snow_with_rain_day" -> R.drawable.partly_cloudy_snow_with_rain_day
         "sunshine_snow_with_rain_night" -> R.drawable.partly_cloudy_snow_with_rain_night
-        "cloudy_none_day", "mostly_cloudy_none_day" -> R.drawable.cloudy_none_day
-        "cloudy_none_night", "mostly_cloudy_none_night" -> R.drawable.cloudy_none_night
+        "cloudy_none_day", "mostly_cloudy_none_day", "cloudy_rainless_day" -> R.drawable.cloudy_none_day
+        "cloudy_none_night", "mostly_cloudy_none_night", "cloudy_rainless_night"  -> R.drawable.cloudy_none_night
         "cloudy_rain_day", "mostly_cloudy_rain_day" -> R.drawable.cloudy_rain_day
         "cloudy_rain_night", "mostly_cloudy_rain_night" -> R.drawable.cloudy_rain_night
         "cloudy_snow_day", "mostly_cloudy_snow_day" -> R.drawable.cloudy_snow_day
