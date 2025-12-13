@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.pets.weatherapp.data.model.CachedForecast
 import com.pets.weatherapp.domain.repository.CacheRepository
 import com.pets.weatherapp.domain.repository.ForecastRepository
+import com.pets.weatherapp.presentation.screens.weather.ui.component.SnackMessage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,10 +14,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.android.annotation.KoinViewModel
 import java.io.IOException
 
-@KoinViewModel
 class ForecastViewModel(
     private val repository: ForecastRepository,
     private val cacheRepository: CacheRepository

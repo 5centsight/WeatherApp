@@ -1,4 +1,4 @@
-package com.pets.weatherapp.presentation.screens.weather.presentation
+package com.pets.weatherapp.presentation.screens.weather.ui.component
 
 sealed class SnackMessage {
     object NoInternet : SnackMessage()
