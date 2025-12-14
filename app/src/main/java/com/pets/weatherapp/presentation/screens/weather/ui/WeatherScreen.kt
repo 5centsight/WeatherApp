@@ -1,21 +1,19 @@
 package com.pets.weatherapp.presentation.screens.weather.ui
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.Indicator
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,15 +28,13 @@ import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
 import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastState
 import com.pets.weatherapp.presentation.screens.weather.presentation.ForecastViewModel
-import com.pets.weatherapp.presentation.screens.weather.ui.component.SnackMessage
 import com.pets.weatherapp.presentation.screens.weather.ui.cached.CachedWeatherContent
+import com.pets.weatherapp.presentation.screens.weather.ui.component.SnackMessage
 import com.pets.weatherapp.presentation.screens.weather.ui.component.ToolBar
 import com.pets.weatherapp.presentation.screens.weather.ui.component.WeatherSnackBar
 import com.pets.weatherapp.presentation.screens.weather.ui.successed.CurrentWeatherCard
 import com.pets.weatherapp.presentation.screens.weather.ui.successed.DailyForecastCard
 
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeatherScreen(
     viewModel: ForecastViewModel,
@@ -46,6 +42,7 @@ fun WeatherScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
+    val pullRefreshState = rememberPullToRefreshState()
 
     LaunchedEffect(Unit) {
         viewModel.snackBarMessages.collect { message ->
@@ -58,14 +55,6 @@ fun WeatherScreen(
         }
     }
 
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = state.isRefreshing,
-        onRefresh = {
-            viewModel.refreshWeatherData()
-        },
-        refreshThreshold = 30.dp
-    )
-
     Scaffold(
         topBar = {
             ToolBar(
@@ -75,11 +64,25 @@ fun WeatherScreen(
         },
         snackbarHost = { WeatherSnackBar(snackBarHostState) }
     ) { paddingValues ->
-        Box(
+        PullToRefreshBox(
+            isRefreshing = state.isRefreshing,
+            state = pullRefreshState,
+            onRefresh = {
+                viewModel.refreshWeatherData()
+            },
+            indicator = {
+                Indicator(
+                    pullRefreshState,
+                    state.isRefreshing,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter),
+                    color = MaterialTheme.colorScheme.primary,
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .pullRefresh(pullRefreshState)
         ) {
             when (val currentState = state.forecastState) {
                 is ForecastState.Loading -> LoadingScreen()
@@ -93,15 +96,7 @@ fun WeatherScreen(
                     LoadingScreen()
                 }
             }
-            PullRefreshIndicator(
-                state.isRefreshing,
-                pullRefreshState,
-                Modifier.align(Alignment.TopCenter),
-                contentColor = MaterialTheme.colorScheme.primary,
-                backgroundColor = MaterialTheme.colorScheme.surface
-            )
         }
-
     }
 }
 
