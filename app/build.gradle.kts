@@ -53,7 +53,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
-    implementation(libs.okhttp)
+    implementation(libs.okhttp.logginginterceptor)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
