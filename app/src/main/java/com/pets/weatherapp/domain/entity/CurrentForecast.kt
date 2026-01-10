@@ -1,5 +1,8 @@
 package com.pets.weatherapp.domain.entity
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class CurrentForecast(
     val city: String = "",
     val date: String = "",
