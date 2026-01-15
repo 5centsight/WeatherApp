@@ -8,7 +8,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.time.Instant
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class InstantSerializer : KSerializer<Instant> {
     override val descriptor: SerialDescriptor =
@@ -23,11 +22,5 @@ class InstantSerializer : KSerializer<Instant> {
 
     override fun serialize(encoder: Encoder, value: Instant) {
         encoder.encodeString(value.toString())
-    }
-
-    companion object {
-        val WEEK_FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern(
-            "EE, dd MMMM", Locale("ru")
-        )
     }
 }

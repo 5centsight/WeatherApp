@@ -1,6 +1,5 @@
 package com.pets.weatherapp.data.dto
 
-import com.pets.weatherapp.data.dto.InstantSerializer.Companion.WEEK_FORMATTER
 import com.pets.weatherapp.data.model.CityRoomEntity
 import com.pets.weatherapp.data.model.CurrentForecastRoomEntity
 import com.pets.weatherapp.data.model.DailyForecastResponse
@@ -45,7 +44,7 @@ fun CurrentForecast.toEntity() = CurrentForecastRoomEntity(
 
 fun DailyForecastRoomEntity.toDailyForecast() = DailyForecast(
     cityName = cityName,
-    date = WEEK_FORMATTER.format(date.atZone(ZoneId.systemDefault()))
+    date = dateFormatter(date.atZone(ZoneId.systemDefault()))
         .replaceFirstChar { it.titlecase() },
     hours = hours,
     tempPerHour = tempPerHour,

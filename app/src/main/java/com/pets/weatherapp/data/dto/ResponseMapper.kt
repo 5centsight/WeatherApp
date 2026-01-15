@@ -8,20 +8,18 @@ import com.pets.weatherapp.domain.entity.CurrentForecast
 import com.pets.weatherapp.domain.entity.DailyForecast
 import com.pets.weatherapp.presentation.screens.weather.presentation.getWeatherIconRes
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(
-    "EE, dd MMMM",
-    Locale("ru")
-)
+fun dateFormatter(date: ZonedDateTime): String = date.format(DateTimeFormatter.ofPattern("EE, dd MMMM").withLocale(Locale.getDefault()))
 
 fun CurrentForecastResponse.toCurrentForecast(): CurrentForecast {
     val forecast = this.forecasts.first()
     return CurrentForecast(
         city = forecast.links.city,
-        date = formatter.format(forecast.date.atZone(ZoneId.systemDefault())),
-        updateDate = formatter.format(forecast.updateDate.atZone(ZoneId.systemDefault())),
+        date = dateFormatter(forecast.date.atZone(ZoneId.systemDefault())),
+        updateDate = dateFormatter(forecast.updateDate.atZone(ZoneId.systemDefault())),
         temperature = forecast.temperature,
         feelLikeTemp = forecast.feelLikeTemp,
         humidity = forecast.humidity,
@@ -36,7 +34,7 @@ fun DailyForecastResponse.toDailyForecastList(): List<DailyForecast> {
     return hourlyForecastsList.map { it ->
         DailyForecast(
             cityName = it.links.city,
-            date = formatter.format(it.date.atZone(ZoneId.systemDefault()))
+            date = dateFormatter(it.date.atZone(ZoneId.systemDefault()))
                 .replaceFirstChar { it.titlecase() },
             minTemperature = it.hours[0].temperature.min,
             maxTemperature = it.hours[2].temperature.max,
